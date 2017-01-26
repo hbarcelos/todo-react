@@ -1,15 +1,17 @@
-<!DOCTYPE HTML>
 <html>
 <head>
   <meta charset="utf-8">
   <title>React TODO</title>
-  <script src="./node_modules/babel-polyfill/dist/polyfill.js"></script>
+  <link rel="stylesheet" href="./styles.css" type="text/css" media="all" />
+  <script src="./node_modules/react/dist/react.js"></script>
+  <script src="./node_modules/react-dom/dist/react-dom.js"></script>
   <script src="./node_modules/babel-standalone/babel.js"></script>
+  <script src="./node_modules/babel-polyfill/dist/polyfill.js"></script>
   <body>
     <div id="mount-point" class="react-entry-point">
-      <script type="text/babel" src="./todo-list.jsx">
-      </script>
     </div>
+    <!-- <script type="text/babel" src="./todo-list.jsx"></script> -->
+    <script type="text/babel" src="./todo-list.jsx"></script>
   </body>
 </head>
 </html>
