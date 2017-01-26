@@ -1,0 +1,6 @@
+.task-list__task {
+}
+
+  .task-list__task--done {
+    text-decoration: line-through;
+  }
