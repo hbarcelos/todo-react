@@ -1,32 +1,62 @@
+const taskList = [{
+  done : false,
+  description : 'Task 1'
+}, {
+  done : true,
+  description : 'Task 2'
+}, {
+  done : false,
+  description : 'Task 3'
+}];
+
+class Task extends React.Component {
+  constructor(initialState) {
+    super()
+
+    this.state = initialState;
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    this.setState(prevState => ({
+      done : !prevState.done,
+    }));
+  }
+
+  render() {
+    return (
+      <li
+        className={'task-list__task' + (this.state.done ? ' task-list__task--done' : '')}
+        onClick={this.handleClick}>
+        {this.state.description}
+      </li>
+    )
+  }
+}
+
 class TodoList extends React.Component {
   constructor() {
     super()
 
     this.state = {
-      tasks : [{
-        done : false,
-        description : 'Test'
-      }]
-    }
+      tasks : [],
+    };
   }
 
-  handleClick(taskDescription) {
-    const task = this.state.tasks.find(item => item.description === taskDescription)
+  componentDidMount() {
+    taskList.forEach(task => this.addTask(task))
+  }
 
-    if (task === undefined) return;
+  addTask(task) {
+    this.setState(prevState => ({
+      tasks : [...prevState.tasks, task]
+    }));
+  }
 
-    task.done = !task.done;
-
-    const newState = {
-      tasks : this.state.tasks.map(item => {
-        if (item.description === task.description) {
-          return task;
-        }
-        return item;
-      })
-    }
-
-    this.setState(newState)
+  removeTask(task) {
+    this.setState(prevState =>
+      prevState.tasks.filter(taskItem => taskItem.description === task.description))
   }
 
   render() {
@@ -35,11 +65,9 @@ class TodoList extends React.Component {
         <ul className="task-list">
           {
             this.state.tasks.map(function (task) {
-              return <li key={task.description}
-                className={'task-list__task' + (task.done ? ' task-list__task--done' : '')}
-                onClick={this.handleClick.bind(this, task.description)}>
-                {task.description}
-                </li>
+              return (
+                <Task key={task.description} description={task.description} done={task.done} />
+              )
             }, this)
           }
         </ul>
@@ -48,7 +76,32 @@ class TodoList extends React.Component {
   }
 }
 
+class TaskAddButton extends React.Component {
+  handleClick() {
+    alert('Add task')
+  }
+
+  render() {
+    return (
+      <button
+        className="btn btn--success"
+        onClick={this.handleClick.bind(this)}>
+        +
+      </button>
+    )
+  }
+}
+
+function TodoApp() {
+  return (
+    <div className="main">
+      <TaskAddButton />
+      <TodoList />
+    </div>
+  )
+}
+
 ReactDOM.render(
-  <TodoList />,
+  <TodoApp />,
   document.getElementById('mount-point')
 );
